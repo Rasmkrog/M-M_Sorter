@@ -154,6 +154,11 @@ void readcolor(){
 	_delay_ms(delay);
 	
 	
+	
+	
+	
+	
+	
 }
 
 

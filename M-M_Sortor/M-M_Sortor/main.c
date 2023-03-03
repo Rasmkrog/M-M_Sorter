@@ -59,12 +59,19 @@ int main(void)
 		//LEDTEST();
 		//_delay_ms(1000);
 		
-		/*
+		
 		turnOnLed(0);
 		_delay_ms(500);
-		turnOffLED();
+		turnOnLed(1);
 		_delay_ms(500);
-		*/
+		turnOnLed(2);
+		_delay_ms(500);
+		turnOnLed(3);
+		_delay_ms(500);
+		turnOnLed(4);
+		_delay_ms(500);
+		turnOnLed(5);
+		
 		}
     return 0;
 }

@@ -44,27 +44,38 @@ void LEDTEST(){
 void turnOnLed(int color){
 	DDRC |= LED_MASK;
 	switch(color){
-		case 0:
+		case 0: //red
 		PORTC |= (1<<redLed);
 		break;
 		
-		case 1:
+		case 1: //orange
 		PORTC |= (1<<orangeLed);
 		break;
 		
-		case 2:
+		case 2: //yellow
 		PORTC |= (1<<yellowLed);
 		break;
 		
-		case 3:
+		case 3: //green
 		PORTC |= (1<<greenLed);
 		break;
 		
 		//last to colors blue and brown
+		case 4: //blue
+		PORTC |= (1<<yellowLed) | (1<<greenLed);
+		break;
+		
+		case 5: //brown
+			PORTC = LED_MASK;
+		break;
+		
 		default:
 		LEDTEST();
-		break;
+		break;		
 	}
+	_delay_ms(500);
+	PORTC &= ~(LED_MASK); // turn off all LEDs
+	_delay_ms(500);
 }
 
 void turnOffLED(){
