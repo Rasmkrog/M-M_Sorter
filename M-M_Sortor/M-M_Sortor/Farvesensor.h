@@ -11,8 +11,8 @@
 void setup_timer0();
 unsigned long micros();
 void initSensor();
-void turnOff();
-void turnOn();
+void turnOffSensor();
+void turnOnSensor();
 unsigned int getRedPW();
 unsigned int getGreenPW();
 unsigned int getBluePW();

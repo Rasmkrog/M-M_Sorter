@@ -27,9 +27,14 @@ s1 = low
 #define SENSOR_OUT_PIN 7
 
 int redPW;
+int red;
 int greenPW;
+int green;
 int bluePW;
+int blue;
 int PW;
+
+
 volatile unsigned long timer_count = 0;
 
 void setup_timer0() {
@@ -68,11 +73,11 @@ void initSensor(){
 	setup_timer0();
 }
 
-void turnOff(){
+void turnOffSensor(){
 	PORTD = 0b00000000;
 }
 
-void turnOn(){
+void turnOnSensor(){
 	//Set PWM scaling to 20%
 	PORTD = PORTD &= ~(1<< S0_PIN);
 }
@@ -139,26 +144,36 @@ unsigned int getBluePW(){
 	return PW;
 }
 
+int map(int x, int in_min, int in_max, int out_min, int out_max){
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 void readcolor(){
 
 	//get red PW and set it as redPW
 	redPW = getRedPW();
+	red = map(redPW, 0 , 100, 0 , 255);
 	_delay_ms(delay);
 	
 	//get green PW and set is as greenPW
 	greenPW = getGreenPW();
+	green = map(greenPW, 0 , 100, 0 , 255);
 	_delay_ms(delay);
 	
 	//get blue PW and set is as bluePW
 	bluePW = getBluePW();
+	blue = map(bluePW, 0 , 100, 0 , 255);
 	_delay_ms(delay);
-	
-	
-	
-	
-	
-	
-	
+
+	if((red > green) && (red > blue)){
+		turnOnLed(0);
+	}
+	else if((green> red) & (green > blue)){
+		turnOnLed(3);
+	}
+	else if((blue > red) & (blue > green)){
+		turnOnLed(4);
+	}
 }
 
 

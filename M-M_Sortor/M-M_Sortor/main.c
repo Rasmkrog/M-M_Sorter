@@ -27,6 +27,7 @@ pin 10 , 11 , 12 , 13
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <stdlib.h>
 #include "Servo.h"
 #include "Stepper.h"
 #include "Farvesensor.h"
@@ -45,21 +46,25 @@ int main(void)
 {
 	DDRB |= 0xFF;
 	DDRC = 0x0F;
-    //initServo(offset);
+    initServo(offset);
 	//_delay_ms(10000);
 	//initStepper();
 	initLED();
-	
+	initSensor();
     while(1) {
+		turnOnSensor();
+		readcolor();
+		turnOffSensor();
+		_delay_ms(100);
+		turnDegrees(rand() % 90 + 1);
+		_delay_ms(100);
+		
+		
 	    //step(10, 1);
 		//turn(fastturndelay,range);
 		//_delay_ms(100);
 		
-		
-		//LEDTEST();
-		//_delay_ms(1000);
-		
-		
+		/*
 		turnOnLed(0);
 		_delay_ms(500);
 		turnOnLed(1);
@@ -71,7 +76,7 @@ int main(void)
 		turnOnLed(4);
 		_delay_ms(500);
 		turnOnLed(5);
-		
+		*/
 		}
     return 0;
 }
