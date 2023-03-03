@@ -15,8 +15,10 @@ s1 = low
 */
 #define F_CPU 12000000UL
 #include <avr/io.h>
-#include <avr/interrupt.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
+#include "LED_TEST.h"
+
 #define delay 200
 #define S0_PIN 3
 #define S1_PIN 4
@@ -138,6 +140,7 @@ unsigned int getBluePW(){
 }
 
 void readcolor(){
+
 	//get red PW and set it as redPW
 	redPW = getRedPW();
 	_delay_ms(delay);
@@ -150,10 +153,12 @@ void readcolor(){
 	bluePW = getBluePW();
 	_delay_ms(delay);
 	
-
-		
 	
 }
+
+
+
+
 
 	
 

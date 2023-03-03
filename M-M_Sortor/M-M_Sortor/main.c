@@ -29,7 +29,8 @@ pin 10 , 11 , 12 , 13
 #include <util/delay.h>
 #include "Servo.h"
 #include "Stepper.h"
-//#include "Farvesensor.h"
+#include "Farvesensor.h"
+#include "LED_TEST.h"
 
 //int offset = 520;
 #define offset 600
@@ -43,14 +44,27 @@ int fastturndelay = 80;
 int main(void)
 {
 	DDRB |= 0xFF;
-    initServo(offset);
-	_delay_ms(10000);
+	DDRC = 0x0F;
+    //initServo(offset);
+	//_delay_ms(10000);
 	//initStepper();
+	initLED();
+	
     while(1) {
 	    //step(10, 1);
-		turn(fastturndelay,range);
+		//turn(fastturndelay,range);
 		//_delay_ms(100);
 		
+		
+		//LEDTEST();
+		//_delay_ms(1000);
+		
+		/*
+		turnOnLed(0);
+		_delay_ms(500);
+		turnOffLED();
+		_delay_ms(500);
+		*/
 		}
     return 0;
 }

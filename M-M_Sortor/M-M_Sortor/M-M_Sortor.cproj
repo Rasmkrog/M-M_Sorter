@@ -126,6 +126,12 @@
     <Compile Include="Farvesensor.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="LED_TEST.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="LED_TEST.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
