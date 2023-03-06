@@ -46,18 +46,19 @@ int main(void)
 {
 	DDRB |= 0xFF;
 	DDRC = 0x0F;
-    initServo(offset);
+    //initServo(offset);
 	//_delay_ms(10000);
 	//initStepper();
 	initLED();
 	initSensor();
     while(1) {
-		turnOnSensor();
+		//turnOnSensor();
 		readcolor();
-		turnOffSensor();
-		_delay_ms(100);
-		turnDegrees(rand() % 90 + 1);
-		_delay_ms(100);
+		_delay_ms(1000);
+		//turnOffSensor();
+		//_delay_ms(100);
+		//turnDegrees(rand() % 90 + 1);
+		//_delay_ms(100);
 		
 		
 	    //step(10, 1);
