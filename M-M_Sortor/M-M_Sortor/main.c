@@ -53,31 +53,30 @@ int main(void)
 	initSensor();
     while(1) {
 		//turnOnSensor();
-		readcolor();
-		_delay_ms(1000);
+		//readcolor();
+		//_delay_ms(50);
+		//testRedPW();
+		//_delay_ms(50);
+		//testGreenPW();
+		//_delay_ms(50);
+		//testBluePW();
+		//_delay_ms(50);
 		//turnOffSensor();
+		
+		//getBluePW();
+		//getGreenPW();
+		//getRedPW();
+		readcolor();
+		_delay_ms(50);
+		
 		//_delay_ms(100);
-		//turnDegrees(rand() % 90 + 1);
+		//turnDegrees(rand() % range);
 		//_delay_ms(100);
 		
-		
-	    //step(10, 1);
+	    //step(12.5 , 1);
+		//_delay_ms(100);
 		//turn(fastturndelay,range);
 		//_delay_ms(100);
-		
-		/*
-		turnOnLed(0);
-		_delay_ms(500);
-		turnOnLed(1);
-		_delay_ms(500);
-		turnOnLed(2);
-		_delay_ms(500);
-		turnOnLed(3);
-		_delay_ms(500);
-		turnOnLed(4);
-		_delay_ms(500);
-		turnOnLed(5);
-		*/
 		}
     return 0;
 }

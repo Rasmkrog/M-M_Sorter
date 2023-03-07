@@ -13,26 +13,31 @@ Scaling 20%
 s0 = high
 s1 = low
 */
+/*
+SO
+*/
+
+
 #define F_CPU 12000000UL
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "LED_TEST.h"
 
-#define delay 200
+#define delay 50
 #define S0_PIN 3
 #define S1_PIN 4
 #define S2_PIN 5
 #define S3_PIN 6
 #define SENSOR_OUT_PIN 7
 
-int redPW;
+float redPW;
 int red;
-int greenPW;
+float greenPW;
 int green;
-int bluePW;
+float bluePW;
 int blue;
-int PW;
+float PW;
 
 
 volatile unsigned long timer_count = 0;
@@ -81,8 +86,98 @@ void turnOnSensor(){
 	//Set PWM scaling to 20%
 	PORTD = PORTD &= ~(1<< S0_PIN);
 }
-
 unsigned int getRedPW(){
+	// Set sensor to read Red only
+	PORTD &= ~(1 << S2_PIN);
+	PORTD &= ~(1 << S3_PIN);
+	_delay_ms(10);
+	// Wait for the output to go LOW
+	while (PIND & (1 << SENSOR_OUT_PIN)) {}
+	// Wait for the output to go HIGH
+	while (!(PIND & (1 << SENSOR_OUT_PIN))) {}
+	// Measure the pulse width
+	unsigned long startTime = micros();
+	while (PIND & (1 << SENSOR_OUT_PIN)) {}
+	unsigned long endTime = micros();
+	// Calculate the pulse width in microseconds
+	PW = endTime - startTime;
+	// Return the value
+	return PW;
+}
+unsigned int getGreenPW(){
+	// Set sensor to read Green only
+	//PORTD &= (1 << S2_PIN);
+	//PORTD &= (1 << S3_PIN);
+	PORTD = 0b01101000;
+	_delay_ms(10);
+	// Wait for the output to go LOW
+	while (PIND & (1 << SENSOR_OUT_PIN)) {}
+	// Wait for the output to go HIGH
+	while (!(PIND & (1 << SENSOR_OUT_PIN))) {}
+	// Measure the pulse width
+	unsigned long startTime = micros();
+	while (PIND & (1 << SENSOR_OUT_PIN)) {}
+	unsigned long endTime = micros();
+	// Calculate the pulse width in microseconds
+	PW = endTime - startTime;
+	// Return the value
+	return PW;
+}
+
+unsigned int getBluePW(){
+	// Set sensor to read Blue only
+	//PORTD &= ~(1 << S2_PIN);
+	//PORTD &= (1 << S3_PIN);
+	PORTD = 0b01001000;
+	_delay_ms(10);
+	// Wait for the output to go LOW
+	while (PIND & (1 << SENSOR_OUT_PIN)) {}
+	// Wait for the output to go HIGH
+	while (!(PIND & (1 << SENSOR_OUT_PIN))) {}
+	// Measure the pulse width
+	unsigned long startTime = micros();
+	while (PIND & (1 << SENSOR_OUT_PIN)) {}
+	unsigned long endTime = micros();
+	// Calculate the pulse width in microseconds
+	PW = endTime - startTime;
+	// Return the value
+	return PW;
+}
+
+int map(float x, int in_min, int in_max, int out_min, int out_max){
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+void readcolor(){
+
+	//get red PW and set it as redPW
+	redPW = getRedPW();
+	red = map(redPW, 100 , 0 , 0 , 255);
+	_delay_ms(delay);
+	
+	//get green PW and set is as greenPW
+	greenPW = getGreenPW();
+	green = map(greenPW, 100 , 0, 0 , 255);
+	_delay_ms(delay);
+	
+	//get blue PW and set is as bluePW
+	bluePW = getBluePW();
+	blue = map(bluePW, 100 , 0, 0 , 255);
+	_delay_ms(delay);
+
+	if((red > green) && (red > blue)){
+		turnOnLed(0);
+	}
+	else if((green> red) & (green > blue)){
+		turnOnLed(3);
+	}
+	else if((blue > red) & (blue > green)){
+		turnOnLed(4);
+	}
+}
+
+
+float testRedPW(){
 	// Set sensor to read Red only
 	PORTD &= ~(1 << S2_PIN);
 	PORTD &= ~(1 << S3_PIN);
@@ -102,7 +197,8 @@ unsigned int getRedPW(){
 	// Return the value
 	return PW;
 }
-unsigned int getGreenPW(){
+
+float testGreenPW(){
 	// Set sensor to read Green only
 	PORTD &= (1 << S2_PIN);
 	PORTD &= (1 << S3_PIN);
@@ -123,10 +219,12 @@ unsigned int getGreenPW(){
 	return PW;
 }
 
-unsigned int getBluePW(){
+float testBluePW(){
 	// Set sensor to read Blue only
-	PORTD &= ~(1 << S2_PIN);
-	PORTD &= (1 << S3_PIN);
+	//PORTD &= ~(1 << S2_PIN);
+	//PORTD &= (1 << S3_PIN);
+	PORTD = 0b01001000;
+	
 	_delay_ms(10);
 	// Define integer to represent Pulse Width
 	int PW;
@@ -143,39 +241,6 @@ unsigned int getBluePW(){
 	// Return the value
 	return PW;
 }
-
-int map(int x, int in_min, int in_max, int out_min, int out_max){
-	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-void readcolor(){
-
-	//get red PW and set it as redPW
-	redPW = getRedPW();
-	red = map(redPW, 0 , 100, 0 , 255);
-	_delay_ms(delay);
-	
-	//get green PW and set is as greenPW
-	greenPW = getGreenPW();
-	green = map(greenPW, 0 , 100, 0 , 255);
-	_delay_ms(delay);
-	
-	//get blue PW and set is as bluePW
-	bluePW = getBluePW();
-	blue = map(bluePW, 0 , 100, 0 , 255);
-	_delay_ms(delay);
-
-	if((red > green) && (red > blue)){
-		turnOnLed(0);
-	}
-	else if((green> red) & (green > blue)){
-		turnOnLed(3);
-	}
-	else if((blue > red) & (blue > green)){
-		turnOnLed(4);
-	}
-}
-
 
 
 

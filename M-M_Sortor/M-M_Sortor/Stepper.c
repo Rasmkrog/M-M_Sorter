@@ -40,7 +40,7 @@ void initStepper(){
 	DDRB = 0xFF;
 }
 
-void step(int steps, int direction){
+void step(float steps, int direction){
 	if(direction){
 		for(int j = 0; j < steps; j++){
 			for (int i = 0; i< 4; i++)

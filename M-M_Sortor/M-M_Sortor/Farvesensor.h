@@ -17,4 +17,9 @@ unsigned int getRedPW();
 unsigned int getGreenPW();
 unsigned int getBluePW();
 void readcolor();
+float testRedPW();
+float testGreenPW();
+float testBluePW();
+
+
 #endif /* FARVESENSOR_H_ */
