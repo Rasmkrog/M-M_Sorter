@@ -39,6 +39,10 @@ pin 10 , 11 , 12 , 13
 int slowturndelay = 120;
 int fastturndelay = 80;
 
+//Stepper
+//one rev is 135 steps
+
+
 
 
 
@@ -48,9 +52,9 @@ int main(void)
 	DDRC = 0x0F;
     //initServo(offset);
 	//_delay_ms(10000);
-	//initStepper();
-	initLED();
-	initSensor();
+	initStepper();
+	//initLED();
+	//initSensor();
     while(1) {
 		//turnOnSensor();
 		//readcolor();
@@ -66,15 +70,15 @@ int main(void)
 		//getBluePW();
 		//getGreenPW();
 		//getRedPW();
-		readcolor();
-		_delay_ms(50);
+		//readcolor();
+		//_delay_ms(50);
 		
 		//_delay_ms(100);
 		//turnDegrees(rand() % range);
-		//_delay_ms(100);
+		//_delay_ms(50);
 		
-	    //step(12.5 , 1);
-		//_delay_ms(100);
+	    step(105, 1);
+		_delay_ms(500);
 		//turn(fastturndelay,range);
 		//_delay_ms(100);
 		}
