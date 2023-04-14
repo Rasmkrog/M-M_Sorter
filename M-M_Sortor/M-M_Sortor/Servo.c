@@ -9,7 +9,7 @@
 int offset;
 
 void initServo(unsigned int _offset){
-	//DDRB |= 1 << PINB1;
+	DDRB |= 1 << PINB1;
 	// Set pin 9 on arduino to output
 	/* 1. Set Fast PWM mode 14: set WGM11, WGM12, WGM13 to 1 */
 	/* 3. Set pre-scaler of 8 */
@@ -21,13 +21,13 @@ void initServo(unsigned int _offset){
 	/* Offset for correction */
 	offset = _offset;
 	/* 5. Center servo point */
-	turnDegrees(90);
+	setAngle(90);
 	//delay
-	_delay_ms(20000);
+	//_delay_ms(20000);
 }
 
 
-void turnDegrees(unsigned int degrees)
+void setAngle(unsigned int degrees)
 {
 	/* Works like in math - 0 is the most counterclockwise point
 	Calculates what 1 degree in stepps.

@@ -9,6 +9,6 @@
 #ifndef STEPPER_H_
 #define STEPPER_H_
 void initStepper();
-void step(float steps, unsigned int direction);
+void step(float steps, unsigned int direction, unsigned int delay);
 
 #endif /* STEPPER_H_ */

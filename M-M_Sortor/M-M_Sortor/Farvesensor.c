@@ -23,6 +23,7 @@ SO
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "LED_TEST.h"
+#include "Servo.h"
 
 #define delay 50
 #define S0_PIN 3
@@ -38,6 +39,14 @@ int green;
 float bluePW;
 int blue;
 float PW;
+
+//Servo
+#define RedAngle 50
+#define GreenAngle 70
+#define BlueAngle 95
+#define YelloAngle 115
+#define OrangeAngle 140
+#define BrownAngle 165
 
 
 volatile unsigned long timer_count = 0;
@@ -65,7 +74,7 @@ void initSensor(){
 	//activate pins as output and input
 	DDRD |= 0b01111000;
 	//set pulse with scaling to 20%
-	PORTD = 0b00001000;	
+	//PORTD = 0b00001000;	
 	// Set S0 - S3 as outputs
 	DDRD |= (1 << S0_PIN) | (1 << S1_PIN) | (1 << S2_PIN) | (1 << S3_PIN);
 	// Set Pulse Width scaling to 20%
@@ -149,31 +158,56 @@ int map(float x, int in_min, int in_max, int out_min, int out_max){
 }
 
 void readcolor(){
-
+	/*int avrRed;
 	//get red PW and set it as redPW
-	redPW = getRedPW();
-	red = map(redPW, 100 , 0 , 0 , 255);
-	_delay_ms(delay);
+	for(int i = 0; i<9;i++){
+		redPW = getRedPW();
+		avrRed = avrRed + map(redPW, 100 , 0 , 0 , 255);
+		_delay_ms(delay);
+	}
+	red = avrRed/10; 
 	
-	//get green PW and set is as greenPW
-	greenPW = getGreenPW();
-	green = map(greenPW, 100 , 0, 0 , 255);
-	_delay_ms(delay);
+	int avrGreen;
+	//get red PW and set it as redPW
+	for(int i = 0; i<9;i++){
+		greenPW = getGreenPW();
+		avrGreen = avrGreen + map(greenPW, 100 , 0 , 0 , 255);
+		_delay_ms(delay);
+	}
+	green = avrGreen/10;
 	
 	//get blue PW and set is as bluePW
+	int avrBlue;
+	for(int i = 0; i<9;i++){
+		bluePW = getBluePW();
+		avrBlue = avrBlue + map(bluePW, 100 , 0, 0 , 255);
+		_delay_ms(delay);
+	}
+	blue = avrBlue/10;*/
+	
+	redPW = getRedPW();
+	red + map(redPW, 100 , 0 , 0 , 255);
+	_delay_ms(delay);
+	
+	greenPW = getGreenPW();
+	green = map(greenPW, 100 , 0 , 0 , 255);
+	_delay_ms(delay);
+	
 	bluePW = getBluePW();
 	blue = map(bluePW, 100 , 0, 0 , 255);
 	_delay_ms(delay);
-
-	if((red > green) && (red > blue)){
-		turnOnLed(0);
+	
+	
+	if(blue >red && blue >green){
+		setAngle(BlueAngle);
 	}
-	else if((green> red) & (green > blue)){
-		turnOnLed(3);
+	else if(red > blue && red > green){
+		setAngle(RedAngle);
+	}	
+	else if(green > blue && green > red){
+		setAngle(GreenAngle);
 	}
-	else if((blue > red) & (blue > green)){
-		turnOnLed(4);
-	}
+	return;
 }
 
 

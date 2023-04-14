@@ -10,7 +10,7 @@
 #define INCFILE1_H_
 void initServo(unsigned int _offset);
 void turn(unsigned int _turndelay, unsigned int range);
-void turndegree(unsigned int degree);
+void setAngle(unsigned int degree);
 void clockwise();
 void counterClockwise();
 void delay_ms(unsigned char milliseconds);

@@ -28,7 +28,7 @@ pin10
 
 #define F_CPU 12000000UL
 
-#define delayms 40
+#define delayms 25
 #define pin10 0b000100
 #define pin11 0b001000
 #define pin12 0b010000
@@ -40,24 +40,28 @@ void initStepper(){
 	DDRB = 0xFF;
 }
 
-void step(float steps, int direction){
+void step(float steps, int direction, int _delay){
 	if(direction){
-		for(int j = 0; j < steps; j++){
+		for(float j = 0; j < steps; j++){
 			for (int i = 0; i < 4; i++)
 			{
 				PORTB = cw[i];
 				_delay_ms(delayms);
 			}
 		}
+		PORTB = 0b000000;
+
 	}
 	else{
-		for(int j = 0; j < steps; j++){
-			for (unsigned int i = 0; i < 4; i++)
+		for(float j = 0; j < steps; j++){
+			for (int i = 0; i < 4; i++)
 			{
 				PORTB = ccw[i];
 				_delay_ms(delayms);
 			}
 		}
-	}	
+		PORTB = 0b000000;
+	}
+		
 }
 
