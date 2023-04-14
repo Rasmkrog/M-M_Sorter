@@ -28,7 +28,7 @@ pin10
 
 #define F_CPU 12000000UL
 
-#define delayms 25
+#define delayms 40
 #define pin10 0b000100
 #define pin11 0b001000
 #define pin12 0b010000
@@ -37,12 +37,12 @@ int cw[] = {pin10, pin11, pin13, pin12};
 int ccw[] = {pin13, pin10, pin12, pin11};
 
 void initStepper(){
-	DDRB = 0xFF;
+	DDRB |= 0xFF;
 }
 
 void step(float steps, int direction, int _delay){
 	if(direction){
-		for(float j = 0; j < steps; j++){
+		for(float j = 0; j <= steps; j=j++){
 			for (int i = 0; i < 4; i++)
 			{
 				PORTB = cw[i];

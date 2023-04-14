@@ -63,31 +63,31 @@ int fastturndelay = 80;
 
 int main(void)
 {
-	DDRB |= 0xFF;
 	DDRC = 0b00100011;
-	initSensor();
+	//initSensor();
 	//inithallEffect();
-    initServo(offset);
-	//initStepper();
-	int counter = 0;
-	int angle= 20;
-	setAngle(170);
+    //initServo(offset);
+	initStepper();
+	//int counter = 0;
+	//int angle= 20;
+	//setAngle(170);
 	_delay_ms(1000);
 	
 	/*readcolor();
 	_delay_ms(3000);*/
 	
+	step(1,1,50);
+	_delay_ms(3000);
 	
 	
-	
-    while(1) {
+    while(1) {			
 		/*if(PINC5 == 1){
 		PORTC = 0b00100000;	
 		}*/
 		//getGreenPW();
 		//testBluePW();
-		readcolor();
-		_delay_ms(2000);
+		/*readcolor();
+		_delay_ms(2000);*/
 		/*
 		if(PINC & (1<<1)){
 			counter++;
@@ -124,33 +124,12 @@ int main(void)
 		}
 		
 		
-		
-		/*if(PINC & (1<<1)){
+		if(PINC & (1<<1)){
 			counter++;
 			angle++;
 			setAngle(angle);
 			_delay_ms(100);
-			
-	
 		}*/
-		
-		/*turnDegrees(RedAngle);
-		_delay_ms(1000);
-		turnDegrees(BlueAngle);
-		_delay_ms(1000);
-		
-		turnDegrees(GreenAngle);
-		_delay_ms(1000);
-		turnDegrees(YelloAngle);
-		_delay_ms(1000);
-		
-		turnDegrees(OrangeAngle);
-		_delay_ms(1000);
-		turnDegrees(BrownAngle);
-		_delay_ms(1000);*/
-		
-
-
 		
 		//while(detect());
 		//turnOnSensor();
@@ -163,24 +142,6 @@ int main(void)
 		//testBluePW();
 		//_delay_ms(50);
 		//turnOffSensor();
-		
-		//getBluePW();
-		//getGreenPW();
-		//getRedPW();
-		//readcolor();
-		//_delay_ms(50);
-		
-		//_delay_ms(100);
-		//turnDegrees(rand() % range);
-		//_delay_ms(50);
-		
-	    //step(50, 1, 40);
-		//_delay_ms(500);
-		//turn(fastturndelay,range);
-		
-		
-		//step(200,1,50);
-		//_delay_ms(1000);
 		}
     return 0;
 }

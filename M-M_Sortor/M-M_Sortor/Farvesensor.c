@@ -25,7 +25,7 @@ SO
 #include "LED_TEST.h"
 #include "Servo.h"
 
-#define delay 50
+#define delay 25
 #define S0_PIN 3
 #define S1_PIN 4
 #define S2_PIN 5
