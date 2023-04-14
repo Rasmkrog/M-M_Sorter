@@ -27,12 +27,13 @@ port C pin A1
 
 */
 
-
 #define F_CPU 12000000UL
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <stdlib.h>
+
 #include "Servo.h"
 #include "Stepper.h"
 #include "Farvesensor.h"
@@ -57,30 +58,29 @@ int fastturndelay = 80;
 #define OrangeAngle 140
 #define BrownAngle 165
 
-
-
-
-
 int main(void)
 {
 	DDRC = 0b00100011;
 	//initSensor();
 	//inithallEffect();
     //initServo(offset);
-	initStepper();
-	//int counter = 0;
-	//int angle= 20;
-	//setAngle(170);
+	//initStepper();
+	int counter = 0;
+	int angle= 20;
+	setAngle(170);
 	_delay_ms(1000);
+	
+	setup_io();
+	_delay_ms(100);
+	//step(50,1);
 	
 	/*readcolor();
 	_delay_ms(3000);*/
-	
-	step(1,1,50);
-	_delay_ms(3000);
-	
-	
-    while(1) {			
+    while(1) {	
+		rotate_stepper(90);
+		//step(10,1);
+		_delay_ms(1000);
+						
 		/*if(PINC5 == 1){
 		PORTC = 0b00100000;	
 		}*/
@@ -88,7 +88,7 @@ int main(void)
 		//testBluePW();
 		/*readcolor();
 		_delay_ms(2000);*/
-		/*
+		
 		if(PINC & (1<<1)){
 			counter++;
 			_delay_ms(1000);
@@ -129,7 +129,7 @@ int main(void)
 			angle++;
 			setAngle(angle);
 			_delay_ms(100);
-		}*/
+		}
 		
 		//while(detect());
 		//turnOnSensor();

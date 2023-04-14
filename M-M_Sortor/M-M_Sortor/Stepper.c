@@ -26,8 +26,6 @@ pin10
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define F_CPU 12000000UL
-
 #define delayms 40
 #define pin10 0b000100
 #define pin11 0b001000
@@ -40,28 +38,68 @@ void initStepper(){
 	DDRB |= 0xFF;
 }
 
-void step(float steps, int direction, int _delay){
+void step(float _steps, int direction){
 	if(direction){
-		for(float j = 0; j <= steps; j=j++){
+		for(float j = 0; j <= _steps; j++){
 			for (int i = 0; i < 4; i++)
 			{
 				PORTB = cw[i];
 				_delay_ms(delayms);
 			}
 		}
-		PORTB = 0b000000;
+		PORTB = 0b0;
 
 	}
 	else{
-		for(float j = 0; j < steps; j++){
+		for(float j = 0; j < _steps; j++){
 			for (int i = 0; i < 4; i++)
 			{
 				PORTB = ccw[i];
 				_delay_ms(delayms);
 			}
 		}
-		PORTB = 0b000000;
+		PORTB = 0b00000000;
 	}
 		
 }
+
+#define STEPPER_PIN_1 2
+#define STEPPER_PIN_2 4
+#define STEPPER_PIN_3 5
+#define STEPPER_PIN_4 3
+
+void setup_io(){
+	DDRB |= (1 << STEPPER_PIN_1) | (1 << STEPPER_PIN_2) | (1 << STEPPER_PIN_3) | (1 << STEPPER_PIN_4);
+}
+
+
+void rotate_stepper(int degrees){
+	const int STEPS_PER_REV = 200;
+	const int DELAY_TIME_MS = 40;
+	const float STEPS_PER_DEGREE = (float) STEPS_PER_REV / 360;
+
+	int steps = (int) (degrees * STEPS_PER_DEGREE);
+	
+	for (int i = 0; i < steps; i++) {
+	PORTB |= (1 << STEPPER_PIN_1);
+	_delay_ms(DELAY_TIME_MS);
+	PORTB |= (1 << STEPPER_PIN_2);
+	_delay_ms(DELAY_TIME_MS);
+	PORTB |= (1 << STEPPER_PIN_3);
+	_delay_ms(DELAY_TIME_MS);
+	PORTB |= (1 << STEPPER_PIN_4);
+	_delay_ms(DELAY_TIME_MS);
+	
+	PORTB &= ~(1 << STEPPER_PIN_1);
+	_delay_ms(DELAY_TIME_MS);
+	PORTB &= ~(1 << STEPPER_PIN_2);
+	_delay_ms(DELAY_TIME_MS);
+	PORTB &= ~(1 << STEPPER_PIN_3);
+	_delay_ms(DELAY_TIME_MS);
+	PORTB &= ~(1 << STEPPER_PIN_4);
+	_delay_ms(DELAY_TIME_MS);
+	}
+	PORTB = 0b00;	 
+
+ }
 
