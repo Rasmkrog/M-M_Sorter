@@ -63,24 +63,27 @@ int main(void)
 	DDRC = 0b00100011;
 	//initSensor();
 	//inithallEffect();
-    //initServo(offset);
-	//initStepper();
+    initServo(offset);
+	initStepper();
 	int counter = 0;
 	int angle= 20;
-	setAngle(170);
-	_delay_ms(1000);
+	//setAngle(170);
+	//_delay_ms(1000);
 	
-	setup_io();
-	_delay_ms(100);
+	//setup_io();
+	//_delay_ms(100);
 	//step(50,1);
+	
+	//_delay_ms(1000);
 	
 	/*readcolor();
 	_delay_ms(3000);*/
     while(1) {	
-		rotate_stepper(90);
-		//step(10,1);
+		
+		step(12,1);
 		_delay_ms(1000);
-						
+
+		//rotate_stepper(10);			
 		/*if(PINC5 == 1){
 		PORTC = 0b00100000;	
 		}*/
@@ -121,14 +124,6 @@ int main(void)
 		}
 		if(counter > 6){
 			counter = 1;
-		}
-		
-		
-		if(PINC & (1<<1)){
-			counter++;
-			angle++;
-			setAngle(angle);
-			_delay_ms(100);
 		}
 		
 		//while(detect());
