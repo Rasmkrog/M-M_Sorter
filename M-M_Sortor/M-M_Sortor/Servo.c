@@ -21,7 +21,7 @@ void initServo(unsigned int _offset){
 	/* Offset for correction */
 	offset = _offset;
 	/* 5. Center servo point */
-	setAngle(90);
+	setAngle(100);
 	//delay
 	//_delay_ms(20000);
 }

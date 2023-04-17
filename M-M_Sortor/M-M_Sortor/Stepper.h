@@ -10,5 +10,5 @@
 #define STEPPER_H_
 void initStepper();
 void step(float steps, unsigned int direction);
-
+void takestep();
 #endif /* STEPPER_H_ */

@@ -157,6 +157,8 @@ int map(float x, int in_min, int in_max, int out_min, int out_max){
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+//int order[]  = {RedAngle, BlueAngle, YelloAngle, BrownAngle, GreenAngle, OrangeAngle, GreenAngle, BrownAngle, BlueAngle, RedAngle};
+
 void readcolor(){
 	/*int avrRed;
 	//get red PW and set it as redPW
@@ -185,6 +187,8 @@ void readcolor(){
 	}
 	blue = avrBlue/10;*/
 	
+	
+	/*
 	redPW = getRedPW();
 	red + map(redPW, 100 , 0 , 0 , 255);
 	_delay_ms(delay);
@@ -198,7 +202,7 @@ void readcolor(){
 	_delay_ms(delay);
 	
 	
-	if(blue >red && blue >green){
+	if(blue > red && blue >green){
 		setAngle(BlueAngle);
 	}
 	else if(red > blue && red > green){
@@ -207,6 +211,31 @@ void readcolor(){
 	else if(green > blue && green > red){
 		setAngle(GreenAngle);
 	}
+	*/
+	redPW = getRedPW();
+	_delay_ms(10);
+	greenPW = getGreenPW();
+	_delay_ms(10);
+	bluePW = getBluePW();
+	_delay_ms(10);
+	
+	if(redPW > 100 && redPW < 130 && greenPW >125  && greenPW < 140 && bluePW < 100 && bluePW > 80) //Red
+		setAngle(RedAngle);
+	else if(redPW > 120 && redPW <140 && greenPW > 100 && greenPW <125 && bluePW < 90 && bluePW >75) //Green
+		setAngle(GreenAngle);
+	else if(redPW > 140 && redPW < 155 && greenPW >	115 && greenPW < 130 && bluePW > 60 && bluePW < 75) //Blue
+		setAngle(BlueAngle);		
+	else{
+	
+		for(unsigned int i = 0; i < 10; i++){	
+		setAngle(BlueAngle);
+		}
+	
+	}
+		
+		
+	_delay_ms(100);
+	
 	return;
 }
 

@@ -52,47 +52,48 @@ int fastturndelay = 80;
 
 //Servo
 #define RedAngle 50
-#define GreenAngle 70
-#define BlueAngle 95
-#define YelloAngle 115
-#define OrangeAngle 140
-#define BrownAngle 165
+#define GreenAngle 75
+#define BlueAngle 100
+#define YelloAngle 120
+#define OrangeAngle 145
+#define BrownAngle 170
+int order[]  = {RedAngle, BlueAngle, YelloAngle, BrownAngle, GreenAngle, OrangeAngle, GreenAngle, BrownAngle, BlueAngle, RedAngle};
+
 
 int main(void)
 {
 	DDRC = 0b00100011;
-	//initSensor();
+	initSensor();
 	//inithallEffect();
     initServo(offset);
 	initStepper();
 	int counter = 0;
 	int angle= 20;
 	//setAngle(170);
-	//_delay_ms(1000);
+	_delay_ms(1000);
+	step(13,1);
+	_delay_ms(1000);
 	
-	//setup_io();
-	//_delay_ms(100);
-	//step(50,1);
-	
-	//_delay_ms(1000);
-	
-	/*readcolor();
-	_delay_ms(3000);*/
-    while(1) {	
-		
-		step(25,1);
+    while(counter < 10) {		
+		setAngle(order[counter]);
+		counter = counter+1;
 		_delay_ms(1000);
-
-		//rotate_stepper(10);			
-		/*if(PINC5 == 1){
-		PORTC = 0b00100000;	
-		}*/
-		//getGreenPW();
-		//testBluePW();
-		/*readcolor();
-		_delay_ms(2000);*/
+		for(unsigned char i = 0; i < 12; i++)
+			step(1,1);
+		_delay_ms(1000);
+		setAngle(order[counter]);
+		counter = counter+1;				
+		_delay_ms(1500);
 		
-		if(PINC & (1<<1)){
+		for(unsigned char i = 0; i < 13; i++)
+			step(1,1);		
+		//readcolor();
+		_delay_ms(1500);
+		
+		
+	}
+	return 0;
+		/*if(PINC & (1<<1)){
 			counter++;
 			_delay_ms(1000);
 		}
@@ -122,22 +123,9 @@ int main(void)
 				break;
 			}
 		}
-		if(counter > 6){
+		if(counter > 6)
 			counter = 1;
-		}
-		
-		//while(detect());
-		//turnOnSensor();
-		//readcolor();
-		//_delay_ms(50);
-		//testRedPW();
-		//_delay_ms(50);
-		//testGreenPW();
-		//_delay_ms(50);
-		//testBluePW();
-		//_delay_ms(50);
-		//turnOffSensor();
-		}
-    return 0;
+		}*/
+
 }
 
