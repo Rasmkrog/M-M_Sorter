@@ -11,7 +11,4 @@
 void initStepper();
 void step(float steps, unsigned int direction);
 
-void setup_io();
-void rotate_stepper(unsigned int degrees);
-
 #endif /* STEPPER_H_ */

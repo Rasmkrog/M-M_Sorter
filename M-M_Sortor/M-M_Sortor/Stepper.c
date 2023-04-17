@@ -10,13 +10,11 @@ pin 10 - nr1 - out1 (RØD)
 pin 11 - nr2 - out2 (BLÅ)
 pin 12 - nr3 - out3 (GRØN)
 pin 13 - nr4 - out4 (SORT)
-
 CunterClockwise 
 pin10
 pin11
 pin13
 pin12
-
 Clockwise
 pin12
 pin13
@@ -26,14 +24,9 @@ pin10
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define STEPPER_PIN_1 10
-#define STEPPER_PIN_2 11
-#define STEPPER_PIN_3 12
-#define STEPPER_PIN_4 13
+#define F_CPU 12000000UL
 
-
-
-#define delayms 20
+#define delayms 25
 #define pin10 0b000100
 #define pin11 0b001000
 #define pin12 0b010000
@@ -42,91 +35,30 @@ int cw[] = {pin10, pin11, pin13, pin12};
 int ccw[] = {pin13, pin10, pin12, pin11};
 
 void initStepper(){
-	DDRB |= 0xFF;
+	DDRB = 0xFF;
 }
 
-int stepcounter = 0;
-
-void step(float _steps, int direction){
+void step(float steps, int direction, int _delay){
 	if(direction){
-		if(stepcounter == 0){
-			for(float j = 0; j < _steps; j++){
-				PORTB = pin10;
-				_delay_ms(delayms);
-				PORTB = pin11;
-				_delay_ms(delayms);
-				PORTB = pin13;
-				_delay_ms(delayms);
-				PORTB = pin12;
+		for(float j = 0; j < steps; j++){
+			for (int i = 0; i < 4; i++)
+			{
+				PORTB = cw[i];
 				_delay_ms(delayms);
 			}
-			stepcounter = 1;
 		}
-		else {
-			for(float j = 0; j < _steps+1; j++){
-				PORTB = pin10;
-				_delay_ms(delayms);
-				PORTB = pin11;
-				_delay_ms(delayms);
-				PORTB = pin13;
-				_delay_ms(delayms);
-				PORTB = pin12;
-				_delay_ms(delayms);
-				}
-				stepcounter=0;
-				}
-			}
-		else{
-			for(float j = 0; j < _steps; j++){
-				for (int i = 0; i < 4; i++)
-				{
-					PORTB = ccw[i];
-					_delay_ms(delayms);
-				}
-			}
-			PORTB = 0b00000000;
-		}
+		PORTB = 0b000000;
+
 	}
-
-void setup_io(){
-	DDRB |= (1 << STEPPER_PIN_1) | (1 << STEPPER_PIN_2) | (1 << STEPPER_PIN_3) | (1 << STEPPER_PIN_4);
-}
-
-
-void rotate_stepper(int degrees){
-	const int STEPS_PER_REV = 800;
-	const int DELAY_TIME_MS = 40;
-	const int buffer = 10;
-
-	const float STEPS_PER_DEGREE = (float) STEPS_PER_REV / 360;
-
-	int steps = (int) (degrees * STEPS_PER_DEGREE)/4;
-	
-	for (float i = 0; i < steps; i++) {
-		PORTB |= (1 << STEPPER_PIN_1);
-		_delay_ms(DELAY_TIME_MS);
-		PORTB |= (1 << STEPPER_PIN_2);
-		_delay_ms(DELAY_TIME_MS);
-		PORTB |= (1 << STEPPER_PIN_3);
-		_delay_ms(DELAY_TIME_MS);
-		PORTB |= (1 << STEPPER_PIN_4);
-		_delay_ms(DELAY_TIME_MS);
+	else{
+		for(float j = 0; j < steps; j++){
+			for (int i = 0; i < 4; i++)
+			{
+				PORTB = ccw[i];
+				_delay_ms(delayms);
+			}
+		}
+		PORTB = 0b000000;
+	}
 		
-		PORTB &= ~(1 << STEPPER_PIN_1);
-		_delay_ms(DELAY_TIME_MS);
-		PORTB &= ~(1 << STEPPER_PIN_2);
-		_delay_ms(DELAY_TIME_MS);
-		PORTB &= ~(1 << STEPPER_PIN_3);
-		_delay_ms(DELAY_TIME_MS);
-		PORTB &= ~(1 << STEPPER_PIN_4);
-		_delay_ms(DELAY_TIME_MS);
-	}
- }
-
-
-
-
-/*for(int i = 0; i < 4; i++){
-			
-			PORTB = cw[i];
-			_delay_ms(delayms);*/
+}

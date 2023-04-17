@@ -80,7 +80,7 @@ int main(void)
 	_delay_ms(3000);*/
     while(1) {	
 		
-		step(12,1);
+		step(25,1);
 		_delay_ms(1000);
 
 		//rotate_stepper(10);			
