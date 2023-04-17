@@ -37,28 +37,15 @@ port C pin A1
 #include "Servo.h"
 #include "Stepper.h"
 #include "Farvesensor.h"
-#include "LED_TEST.h"
-#include "hallEffect.h"
-
-//int offset = 520;
+#include "TestScript.h"
 #define offset 600
 #define range 180
-int slowturndelay = 120;
-int fastturndelay = 80;
-
-//Stepper
-//one rev is 200 aka 50 steps called to the function stepper steps
-
-
-//Servo
 #define RedAngle 50
 #define GreenAngle 75
 #define BlueAngle 100
 #define YelloAngle 120
 #define OrangeAngle 145
 #define BrownAngle 170
-int order[]  = {RedAngle, BlueAngle, YelloAngle, BrownAngle, GreenAngle, OrangeAngle, GreenAngle, BrownAngle, BlueAngle, RedAngle};
-
 
 int main(void)
 {
@@ -74,58 +61,18 @@ int main(void)
 	step(13,1);
 	_delay_ms(1000);
 	
-    while(counter < 10) {		
-		setAngle(order[counter]);
-		counter = counter+1;
-		_delay_ms(1000);
-		for(unsigned char i = 0; i < 12; i++)
+    while(1) {		
+		readcolor(); // Read color sensor
+		_delay_ms(1500);
+		for(unsigned char i = 0; i < 12; i++) // Move stepper motor
 			step(1,1);
 		_delay_ms(1000);
-		setAngle(order[counter]);
-		counter = counter+1;				
+		readcolor(); // Read color sensor again
 		_delay_ms(1500);
 		
-		for(unsigned char i = 0; i < 13; i++)
+		for(unsigned char i = 0; i < 13; i++) // Move stepper motor
 			step(1,1);		
-		//readcolor();
-		_delay_ms(1500);
-		
-		
 	}
 	return 0;
-		/*if(PINC & (1<<1)){
-			counter++;
-			_delay_ms(1000);
-		}
-		switch(counter){
-			case 1 :{
-				setAngle(RedAngle);
-				break;
-			}
-			case 2:{
-				setAngle(GreenAngle);
-				break;
-			}
-			case 3:{
-				setAngle(BlueAngle);
-				break;
-			}
-			case 4:{
-				setAngle(YelloAngle);
-				break;
-			}
-			case 5:{
-				setAngle(OrangeAngle);
-				break;
-			}
-			case 6:{
-				setAngle(BrownAngle);
-				break;
-			}
-		}
-		if(counter > 6)
-			counter = 1;
-		}*/
-
 }
 

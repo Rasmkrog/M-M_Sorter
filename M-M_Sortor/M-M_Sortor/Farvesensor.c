@@ -153,90 +153,25 @@ unsigned int getBluePW(){
 	return PW;
 }
 
-int map(float x, int in_min, int in_max, int out_min, int out_max){
-	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-//int order[]  = {RedAngle, BlueAngle, YelloAngle, BrownAngle, GreenAngle, OrangeAngle, GreenAngle, BrownAngle, BlueAngle, RedAngle};
-
 void readcolor(){
-	/*int avrRed;
-	//get red PW and set it as redPW
-	for(int i = 0; i<9;i++){
-		redPW = getRedPW();
-		avrRed = avrRed + map(redPW, 100 , 0 , 0 , 255);
-		_delay_ms(delay);
-	}
-	red = avrRed/10; 
+	redPW = getRedPW(); // Read value for red light from color sensor
+	_delay_ms(10);	 // Wait for sensor to stabilize
+	greenPW = getGreenPW(); // Read value for green light from color sensor
+	_delay_ms(10);	// Wait for sensor to stabilize
+	bluePW = getBluePW(); // Read value for blue light from color sensor
+	_delay_ms(10); // Wait for sensor to stabilize
 	
-	int avrGreen;
-	//get red PW and set it as redPW
-	for(int i = 0; i<9;i++){
-		greenPW = getGreenPW();
-		avrGreen = avrGreen + map(greenPW, 100 , 0 , 0 , 255);
-		_delay_ms(delay);
-	}
-	green = avrGreen/10;
-	
-	//get blue PW and set is as bluePW
-	int avrBlue;
-	for(int i = 0; i<9;i++){
-		bluePW = getBluePW();
-		avrBlue = avrBlue + map(bluePW, 100 , 0, 0 , 255);
-		_delay_ms(delay);
-	}
-	blue = avrBlue/10;*/
-	
-	
-	/*
-	redPW = getRedPW();
-	red + map(redPW, 100 , 0 , 0 , 255);
-	_delay_ms(delay);
-	
-	greenPW = getGreenPW();
-	green = map(greenPW, 100 , 0 , 0 , 255);
-	_delay_ms(delay);
-	
-	bluePW = getBluePW();
-	blue = map(bluePW, 100 , 0, 0 , 255);
-	_delay_ms(delay);
-	
-	
-	if(blue > red && blue >green){
-		setAngle(BlueAngle);
-	}
-	else if(red > blue && red > green){
-		setAngle(RedAngle);
+	if(redPW > 100 && redPW < 130 && greenPW >125  && greenPW < 140 && bluePW < 100 && bluePW > 80) // If detected color is red
+		setAngle(RedAngle); // Set the angle of the servo motor to sort the red object
+	else if(redPW > 120 && redPW <140 && greenPW > 100 && greenPW <125 && bluePW < 90 && bluePW >75) // If detected color is green
+		setAngle(GreenAngle); // Set the angle of the servo motor to sort the green object
+	else if(redPW > 140 && redPW < 155 && greenPW >	115 && greenPW < 130 && bluePW > 60 && bluePW < 75) // If detected color is blue
+		setAngle(BlueAngle); // Set the angle of the servo motor to sort the blue object	
+	else{ // If detected color is not red, green or blue
+		setAngle(BrownAngle); // Set the angle of the servo motor to sort the object as brown
 	}	
-	else if(green > blue && green > red){
-		setAngle(GreenAngle);
-	}
-	*/
-	redPW = getRedPW();
-	_delay_ms(10);
-	greenPW = getGreenPW();
-	_delay_ms(10);
-	bluePW = getBluePW();
-	_delay_ms(10);
-	
-	if(redPW > 100 && redPW < 130 && greenPW >125  && greenPW < 140 && bluePW < 100 && bluePW > 80) //Red
-		setAngle(RedAngle);
-	else if(redPW > 120 && redPW <140 && greenPW > 100 && greenPW <125 && bluePW < 90 && bluePW >75) //Green
-		setAngle(GreenAngle);
-	else if(redPW > 140 && redPW < 155 && greenPW >	115 && greenPW < 130 && bluePW > 60 && bluePW < 75) //Blue
-		setAngle(BlueAngle);		
-	else{
-	
-		for(unsigned int i = 0; i < 10; i++){	
-		setAngle(BlueAngle);
-		}
-	
-	}
-		
-		
-	_delay_ms(100);
-	
-	return;
+	_delay_ms(100); // Wait for the servo to move to the desired position
+	return; // End function
 }
 
 
@@ -304,13 +239,4 @@ float testBluePW(){
 	// Return the value
 	return PW;
 }
-
-
-
-
-	
-
-
-
-
 
